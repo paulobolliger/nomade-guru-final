@@ -40,19 +40,99 @@ export default function Home() {
         <title>Nomade Guru - Agência de Viagens Inteligente</title>
         <meta name="description" content="Roteiros de viagem personalizados com inteligência artificial e curadoria humana." />
         <link rel="icon" href="/favicon.ico" />
+        {/* Font Awesome para Ícones (se não estiver global no CSS) */}
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossOrigin="anonymous" />
       </Head>
+
+      <header>
+        <div className="container">
+            <div className="logo">
+                <a href="#"><img src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155441/logo_nomade_guru_y2inow.png" alt="Logo Nomade Guru" /></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#contato" className="header-btn">Crie Seu Roteiro</a></li>
+                </ul>
+            </nav>
+        </div>
+      </header>
 
       <main>
         <section className="hero" style={{ backgroundImage: "url('https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155476/imagem-impactante_1_nv98cg.png')" }}>
           <div className="hero-content">
             <h1>Viaje com propósito, viva com liberdade</h1>
             <p>Crie seu roteiro personalizado e descubra novas fronteiras com nossa tecnologia de IA e curadoria humana.</p>
-            <a href="#contato" className="btn">Crie seu roteiro personalizado</a>
+            <a href="#contato" className="btn">Experimente Agora</a>
           </div>
         </section>
 
-        {/* Aqui você pode adicionar as outras seções do seu site (Diferenciais, Como Funciona, etc.), lembrando de trocar 'class=' por 'className=' */}
+        {/* =============== SEÇÕES RESTAURADAS COM IMAGENS DO CLOUDINARY =============== */}
 
+        <section className="diferenciais" id="diferenciais">
+            <h2>Diferenciais</h2>
+            <div className="items">
+                <div className="diferencial-item">
+                    <img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155474/icone-tecnologia_2_qnuxdh.png" alt="Tecnologia com propósito" />
+                    <p>Tecnologia com propósito</p>
+                </div>
+                <div className="diferencial-item">
+                    <img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155472/icone-curadoria_2_nttjeq.png" alt="Curadoria humana especializada" />
+                    <p>Curadoria humana especializada</p>
+                </div>
+                <div className="diferencial-item">
+                    <img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155474/icone-roteiros_pdyi68.png" alt="Roteiros autênticos e exclusivos" />
+                    <p>Roteiros autênticos e exclusivos</p>
+                </div>
+            </div>
+        </section>
+
+        <section className="como-funciona" id="como-funciona">
+            <h2>Como Funciona</h2>
+            <div className="passos">
+                <div className="passo">
+                    <img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155474/icone-quiz_vqbtlt.png" alt="Descreva sua viagem" />
+                    <p>Passo 1: Descreva sua viagem dos sonhos</p>
+                </div>
+                <div className="passo">
+                    <img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155474/icone-ia_k89u8u.png" alt="Receba um roteiro com IA" />
+                    <p>Passo 2: Receba um roteiro instantâneo com IA</p>
+                </div>
+                <div className="passo">
+                    <img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155474/icone-especialista_ev6aa7.png" alt="Converse com um especialista" />
+                    <p>Passo 3: Refine os detalhes com um especialista</p>
+                </div>
+            </div>
+        </section>
+
+        {/* Adicionei as classes que faltavam no seu CSS para essas seções funcionarem */}
+        <style jsx global>{`
+          .diferenciais, .como-funciona, .destinos, .curadoria { padding: 60px 20px; text-align: center; }
+          .diferenciais h2, .como-funciona h2, .destinos h2, .curadoria h2 { font-size: 2em; margin-bottom: 20px; color: var(--primary); }
+          .destinos h2, .destinos p { color: var(--white); }
+          .items, .passos { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; }
+          .diferencial-item, .passo { flex: 1; max-width: 250px; }
+          .diferencial-item img, .passo img { height: 80px; margin-bottom: 10px; }
+          .destinos { background: var(--secondary1); }
+          .carousel { display: flex; overflow-x: auto; gap: 20px; padding-bottom: 20px; justify-content: flex-start; max-width: 1200px; margin: auto; }
+          .destino-item { flex: 0 0 200px; background: var(--secondary2); padding: 10px; border-radius: 8px; }
+          .destino-item img { width: 100%; border-radius: 4px; }
+          .curadoria p { max-width: 800px; margin: auto; text-align: justify; }
+        `}</style>
+        
+        <section className="destinos" id="destinos">
+            <h2>Destinos em Destaque</h2>
+            <div className="carousel">
+                <div className="destino-item"><img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155476/laponia-papai-noel_ex4yss.png" alt="Vila do Papai Noel na Lapônia" /><p>Lapônia</p></div>
+                <div className="destino-item"><img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155473/gramado-natal-luz_mm3c3c.png" alt="Natal Luz em Gramado" /><p>Gramado</p></div>
+                <div className="destino-item"><img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155472/disney-magic-kingdom_bl1w3h.png" alt="Magic Kingdom na Disney" /><p>Disney</p></div>
+                <div className="destino-item"><img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155478/islandia-aurora-boreal_cllicl.png" alt="Aurora boreal na Islândia" /><p>Islândia</p></div>
+                <div className="destino-item"><img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155472/festival-lanternas-tail%C3%A2ndia_bv6arb.png" alt="Festival das Lanternas na Tailândia" /><p>Tailândia</p></div>
+                <div className="destino-item"><img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155473/holi-india-cores_qhbnyu.png" alt="Festival Holi na Índia" /><p>Índia</p></div>
+            </div>
+        </section>
+
+        {/* =============== FIM DAS SEÇÕES RESTAURADAS =============== */}
+        
         <section className="contato-roteiro" id="contato">
           <h2>Crie seu Roteiro Personalizado Instantaneamente</h2>
           <p>Preencha os campos abaixo e deixe nossa IA criar uma primeira versão do seu roteiro dos sonhos!</p>
@@ -67,7 +147,7 @@ export default function Home() {
             </button>
           </form>
           {loading && <div style={{ textAlign: 'center', marginTop: '20px' }}><p>Criando sua viagem... ✈️</p></div>}
-          <div className="resultado-container" dangerouslySetInnerHTML={{ __html: resultado }} />
+          {resultado && <div className="resultado-container" dangerouslySetInnerHTML={{ __html: resultado }} />}
         </section>
       </main>
     </>
