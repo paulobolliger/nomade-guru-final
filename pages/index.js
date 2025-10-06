@@ -4,30 +4,25 @@ import Head from 'next/head';
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [resultado, setResultado] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     setResultado('');
-
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-
     try {
       const response = await fetch('/api/gerar-roteiro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-
       const result = await response.json();
-
       if (!response.ok) {
         throw new Error(result.error || 'Falha na resposta do servidor');
       }
-      
       setResultado(result.roteiro);
-
     } catch (error) {
       setResultado(`<p style="color: red;">${error.message}</p>`);
     } finally {
@@ -47,11 +42,11 @@ export default function Home() {
       <header>
         <div className="container">
             <div className="logo">
-                {/* LOGO BRANCO CORRIGIDO */}
                 <a href="#"><img src="https://res.cloudinary.com/dhqvjxgue/image/upload/c_crop,ar_4:3/v1744736404/logo_branco_sem_fundo_rucnug.png" alt="Logo Nomade Guru" /></a>
             </div>
+            <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>☰</button>
             <nav>
-                <ul>
+                <ul className={isMenuOpen ? 'show' : ''} onClick={() => setIsMenuOpen(false)}>
                     <li><a href="#contato" className="header-btn">Crie Seu Roteiro</a></li>
                 </ul>
             </nav>
@@ -67,7 +62,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* =============== SEÇÕES QUE ESTAVAM FALTANDO - AGORA PRESENTES =============== */}
         <section className="diferenciais" id="diferenciais">
             <h2>Diferenciais</h2>
             <div className="items">
@@ -106,14 +100,12 @@ export default function Home() {
         
         <section className="destinos" id="destinos">
             <h2>Destinos em Destaque</h2>
-            {/* O carrossel aqui pode ser implementado depois com uma biblioteca React se desejado */}
             <div className="carousel">
                 <div className="destino-item"><img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155476/laponia-papai-noel_ex4yss.png" alt="Vila do Papai Noel na Lapônia" /><p>Lapônia</p></div>
                 <div className="destino-item"><img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155473/gramado-natal-luz_mm3c3c.png" alt="Natal Luz em Gramado" /><p>Gramado</p></div>
                 <div className="destino-item"><img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155472/disney-magic-kingdom_bl1w3h.png" alt="Magic Kingdom na Disney" /><p>Disney</p></div>
             </div>
         </section>
-        {/* =============== FIM DAS SEÇÕES QUE ESTAVAM FALTANDO =============== */}
         
         <section className="contato-roteiro" id="contato">
           <h2>Crie seu Roteiro Personalizado Instantaneamente</h2>
@@ -133,7 +125,6 @@ export default function Home() {
         </section>
       </main>
 
-      {/* RODAPÉ COMPLETO */}
       <footer>
         <div className="footer-container">
             <div className="footer-info">
@@ -144,16 +135,16 @@ export default function Home() {
             <div className="footer-links">
                 <p><strong>Canais Oficiais</strong></p>
                 <ul className="box-redes-sociais">
-                    <li className="facebook"><a href="https://www.facebook.com/nomadeguru" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i className="fab fa-facebook-f icon"></i></a></li>
-                    <li className="instagram"><a href="https://www.instagram.com/nomade.guru/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="fab fa-instagram icon"></i></a></li>
-                    <li className="youtube"><a href="https://www.youtube.com/@NomadeGuru" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i className="fab fa-youtube icon"></i></a></li>
-                    <li className="spotify"><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Spotify"><i className="fab fa-spotify icon"></i></a></li>
+                    <li><a href="https://www.facebook.com/nomadeguru" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i className="fab fa-facebook-f icon"></i></a></li>
+                    <li><a href="https://www.instagram.com/nomade.guru/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="fab fa-instagram icon"></i></a></li>
+                    <li><a href="https://www.youtube.com/@NomadeGuru" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i className="fab fa-youtube icon"></i></a></li>
+                    <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Spotify"><i className="fab fa-spotify icon"></i></a></li>
                 </ul>
             </div>
         </div>
       </footer>
 
-      {/* Estilos adicionais que estavam no seu HTML original para as seções do meio */}
+      {/* Estilos adicionais para as seções que estavam faltando */}
       <style jsx>{`
         .diferenciais, .como-funciona, .destinos, .curadoria {
           padding: 60px 20px;

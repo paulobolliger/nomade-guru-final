@@ -11,9 +11,9 @@ export default async function handler(req, res) {
     const { nome, email, destino, duracao, interesses } = req.body;
     console.log(`✅ NOVO LEAD (Next.js): ${nome} (${email}) | Destino: ${destino}`);
     
-    // === LINHA CORRIGIDA ===
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' }); 
-    // =======================
+    // ======================= LINHA CORRIGIDA =======================
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.0-pro' }); 
+    // ===============================================================
 
     const prompt = `
         Você é o "Nomade Guru", um especialista de viagens amigável e criativo.

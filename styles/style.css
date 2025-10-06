@@ -76,7 +76,6 @@ nav ul {
   background: var(--denary);
 }
 
-.menu-toggle { display: none; }
 
 /* Hero Section (Seção Principal) */
 .hero {
@@ -171,7 +170,6 @@ nav ul {
   color: #ddd;
 }
 
-/* === NOVOS ESTILOS PARA O FORMULÁRIO (#3) === */
 #roteiro-form input, #roteiro-form textarea {
   width: 100%;
   box-sizing: border-box;
@@ -189,7 +187,6 @@ nav ul {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(80, 83, 196, 0.3);
 }
-/* === FIM DOS NOVOS ESTILOS === */
 
 .btn-gerar {
   padding: 15px 30px;
@@ -230,7 +227,7 @@ nav ul {
   margin-top: 20px;
 }
 
-/* === NOVOS ESTILOS PARA O RODAPÉ (#4) === */
+/* Estilos para o Rodapé */
 footer {
     background-color: #0c0e1a;
     color: #a0a0a0;
@@ -268,20 +265,56 @@ footer {
 .box-redes-sociais a:hover .icon {
     color: var(--primary);
 }
-/* === FIM DOS NOVOS ESTILOS === */
 
 
-/* === AJUSTE DE RESPONSIVIDADE (#1) === */
+/* === CÓDIGO DE RESPONSIVIDADE COMPLETO === */
+
+/* Botão do menu hambúrguer (inicialmente escondido) */
+.menu-toggle {
+    display: none;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+}
+
+/* Media Query para telas de tablet e celular */
 @media (max-width: 768px) {
     .hero h1 {
         font-size: 2.2em;
     }
+    
+    /* Esconde a navegação normal */
     nav ul {
-        display: none; /* Em um próximo passo, podemos fazer o menu mobile aparecer */
+        display: none;
+        /* Estilos para quando o menu estiver aberto */
+        position: absolute;
+        top: 80px; /* Altura do header */
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background-color: #12152c;
+        padding: 20px 0;
     }
-    .header-btn {
-        /* Para garantir que ele não seja cortado */
-        white-space: nowrap;
+    
+    /* Mostra o menu quando ele tiver a classe 'show' */
+    nav ul.show {
+        display: flex;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+    
+    /* Mostra o botão do menu hambúrguer */
+    .menu-toggle {
+        display: block;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
     }
 }
-/* === FIM DO AJUSTE === */
