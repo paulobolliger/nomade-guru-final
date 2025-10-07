@@ -113,7 +113,7 @@ nav ul li a:not(.header-btn):hover::after {
 .hero p { font-size: 1.2em; margin-bottom: 50px; max-width: 600px; margin-left: auto; margin-right: auto; }
 .hero .btn { background: var(--white); color: var(--primary); padding: 15px 30px; border-radius: 50px; font-size: 1em; font-weight: 700; cursor: pointer; transition: background 0.3s ease; }
 
-/* Seção do Formulário */
+/* Seção do Formulário (Container) */
 .contato-roteiro {
   text-align: center;
   background-color: #1a1e36;
@@ -125,78 +125,91 @@ nav ul li a:not(.header-btn):hover::after {
 .contato-roteiro p {
   font-size: 1.1em;
   color: #c0c0c0;
-  margin-bottom: 40px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-bottom: 60px; /* Mais espaço para o novo formulário */
 }
+
+/* === ESTILOS ANTIGOS DO FORMULÁRIO REMOVIDOS === */
+
+/* === CSS DO MATERIAL DESIGN FORM (SUGESTÃO DO CHATGPT) === */
 #roteiro-form {
-  max-width: 600px;
-  margin: auto;
+  max-width: 500px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 32px; /* Aumentei o espaçamento */
 }
-.form-group {
-  text-align: left;
-}
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: #ccc;
-  margin-left: 15px;
-}
-
-/* ESTILOS DO FORMULÁRIO ATUALIZADOS */
-#roteiro-form input, #roteiro-form textarea {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 16px 20px;
-  background-color: var(--secondary2);
-  color: var(--white);
-  border: 1px solid #424452;
-  border-radius: 30px;
-  font-size: 1rem;
+.md-field {
+  position: relative;
   font-family: 'Poppins', sans-serif;
-  transition: border-color 0.3s, box-shadow 0.3s;
 }
-
-#roteiro-form textarea {
-  border-radius: 20px;
-  resize: vertical;
-}
-
-#roteiro-form input::placeholder, #roteiro-form textarea::placeholder {
-    color: #8a8a8a;
-}
-
-#roteiro-form input:focus, #roteiro-form textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(80, 83, 196, 0.3);
-}
-
-.btn-gerar {
-  padding: 16px 30px;
-  font-size: 1.1em;
-  font-weight: 700;
-  background-color: var(--white);
-  color: var(--primary);
+.md-field input,
+.md-field textarea {
+  width: 100%;
+  background: transparent;
   border: none;
-  border-radius: 50px;
-  cursor: pointer;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  color: var(--white);
+  font-size: 1rem;
+  padding: 14px 4px 10px 4px; /* Adicionado padding lateral */
   transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+.md-field textarea {
+  resize: vertical;
+  min-height: 50px;
+}
+.md-field label {
+  position: absolute;
+  top: 14px;
+  left: 4px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+/* Efeito do foco e preenchimento */
+.md-field input:focus,
+.md-field textarea:focus {
+  border-bottom-color: var(--primary);
+  outline: none;
+}
+.md-field input:focus + label,
+.md-field input:not(:placeholder-shown) + label,
+.md-field textarea:focus + label,
+.md-field textarea:not(:placeholder-shown) + label {
+  top: -12px; /* Ajuste para subir mais */
+  font-size: 0.8rem;
+  color: var(--primary);
+}
+.md-field.textarea label {
+  top: 10px;
+}
+
+.md-btn {
+  background-color: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 24px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
   margin-top: 20px;
   align-self: center;
-  max-width: 300px;
 }
-.btn-gerar:hover:not(:disabled) {
-  background-color: #f0f0f0;
+.md-btn:hover:not(:disabled) {
+  background-color: var(--denary);
+  box-shadow: 0 5px 15px rgba(80, 83, 196, 0.4);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(80, 83, 196, 0.2);
 }
-.btn-gerar:disabled { background-color: #ccc; cursor: not-allowed; }
+.md-btn:disabled {
+  background-color: #555;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+/* === FIM DO CSS DO MATERIAL DESIGN === */
 
 .resultado-container { background-color: var(--secondary2); padding: 30px; margin: 40px auto 0 auto; max-width: 800px; border-radius: 10px; text-align: left; border: 1px solid var(--primary); line-height: 1.8; }
 .resultado-container h3 { border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-top: 20px; }
