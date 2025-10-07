@@ -105,11 +105,52 @@ nav ul li a:not(.header-btn):hover::after {
 /* Seções Padrão */
 .hero, .diferenciais, .como-funciona, .destinos, .contato-roteiro {
   padding: 60px 20px;
+  text-align: center;
 }
 .diferenciais h2, .como-funciona h2, .destinos h2, .contato-roteiro h2 {
   font-size: 2em;
   margin-bottom: 40px;
 }
+.items, .passos {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.diferencial-item, .passo {
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+}
+.diferencial-item img, .passo img {
+  height: 80px;
+  margin-bottom: 15px;
+}
+.destinos {
+  background-color: var(--secondary1);
+}
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding-bottom: 20px;
+  max-width: 1200px;
+  margin: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--secondary2);
+}
+.destino-item {
+  flex: 0 0 220px;
+}
+.destino-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
 .hero { min-height: 80vh; background-size: cover; background-position: center; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); }
 .hero::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); }
 .hero-content { position: relative; z-index: 2; }
@@ -119,7 +160,6 @@ nav ul li a:not(.header-btn):hover::after {
 
 /* Seção do Formulário (Container) */
 .contato-roteiro {
-  text-align: center;
   background-color: #1a1e36;
 }
 .contato-roteiro h2 {
@@ -133,86 +173,17 @@ nav ul li a:not(.header-btn):hover::after {
 }
 
 /* CSS DO MATERIAL DESIGN FORM */
-#roteiro-form {
-  max-width: 500px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-.md-field {
-  position: relative;
-  font-family: 'Poppins', sans-serif;
-}
-.md-field input,
-.md-field textarea {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-  color: var(--white);
-  font-size: 1rem;
-  padding: 14px 4px 10px 4px;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-}
-.md-field textarea {
-  resize: vertical;
-  min-height: 50px;
-}
-.md-field label {
-  position: absolute;
-  top: 14px;
-  left: 4px;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1rem;
-  pointer-events: none;
-  transition: all 0.3s ease;
-}
-/* Efeito do foco e preenchimento */
-.md-field input:focus,
-.md-field textarea:focus {
-  border-bottom-color: var(--primary);
-  outline: none;
-}
-/* O placeholder=" " no HTML é essencial para este seletor funcionar corretamente */
-.md-field input:focus + label,
-.md-field input:not(:placeholder-shown) + label,
-.md-field textarea:focus + label,
-.md-field textarea:not(:placeholder-shown) + label {
-  top: -12px;
-  font-size: 0.8rem;
-  color: var(--primary);
-}
-.md-field.textarea label {
-  top: 10px;
-}
-
-.md-btn {
-  background-color: var(--primary);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 14px 24px;
-  font-size: 1.1em;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
-  margin-top: 20px;
-  align-self: center;
-}
-.md-btn:hover:not(:disabled) {
-  background-color: var(--denary);
-  box-shadow: 0 5px 15px rgba(80, 83, 196, 0.4);
-  transform: translateY(-2px);
-}
-.md-btn:disabled {
-  background-color: #555;
-  box-shadow: none;
-  cursor: not-allowed;
-}
-
+#roteiro-form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+.md-field { position: relative; font-family: 'Poppins', sans-serif; }
+.md-field input, .md-field textarea { width: 100%; background: transparent; border: none; border-bottom: 2px solid rgba(255, 255, 255, 0.2); color: var(--white); font-size: 1rem; padding: 14px 4px 10px 4px; transition: all 0.3s ease; box-sizing: border-box; }
+.md-field textarea { resize: vertical; min-height: 50px; }
+.md-field label { position: absolute; top: 14px; left: 4px; color: rgba(255, 255, 255, 0.6); font-size: 1rem; pointer-events: none; transition: all 0.3s ease; }
+.md-field input:focus, .md-field textarea:focus { border-bottom-color: var(--primary); outline: none; }
+.md-field input:focus + label, .md-field input:not(:placeholder-shown) + label, .md-field textarea:focus + label, .md-field textarea:not(:placeholder-shown) + label { top: -12px; font-size: 0.8rem; color: var(--primary); }
+.md-field.textarea label { top: 10px; }
+.md-btn { background-color: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 14px 24px; font-size: 1.1em; font-weight: 600; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25); margin-top: 20px; align-self: center; }
+.md-btn:hover:not(:disabled) { background-color: var(--denary); box-shadow: 0 5px 15px rgba(80, 83, 196, 0.4); transform: translateY(-2px); }
+.md-btn:disabled { background-color: #555; box-shadow: none; cursor: not-allowed; }
 .resultado-container { background-color: var(--secondary2); padding: 30px; margin: 40px auto 0 auto; max-width: 800px; border-radius: 10px; text-align: left; border: 1px solid var(--primary); line-height: 1.8; }
 .resultado-container h3 { border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-top: 20px; }
 

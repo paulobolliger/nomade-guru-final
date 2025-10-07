@@ -47,7 +47,7 @@ export default function Home() {
             <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>☰</button>
             <nav>
                 <ul className={isMenuOpen ? 'show' : ''} onClick={() => setIsMenuOpen(false)}>
-                    <li><a href="#">Destinos</a></li>
+                    <li><a href="/destinos">Destinos</a></li>
                     <li><a href="#">Loja Online</a></li>
                     <li><a href="#">Blog</a></li>
                     <li><a href="#contato" className="header-btn">Crie Seu Roteiro</a></li>
@@ -141,7 +141,7 @@ export default function Home() {
           </form>
 
           {loading && <div style={{ textAlign: 'center', marginTop: '40px' }}><p>Criando sua viagem... ✈️</p></div>}
-          {resultado && <div className="resultado-container" dangerouslySetInnerHTML={{ __html: resultado }} />}
+          {resultado && <div className="resultado-container" dangerouslySetInnerHTML={{ __html:resultado }} />}
         </section>
       </main>
 
@@ -163,52 +163,6 @@ export default function Home() {
             </div>
         </div>
       </footer>
-
-      {/* Estilos JSX que estavam faltando para as seções do meio */}
-      <style jsx>{`
-        .diferenciais, .como-funciona, .destinos {
-          text-align: center;
-        }
-        .items, .passos {
-          max-width: 1200px;
-          margin: auto;
-          display: flex;
-          justify-content: space-around;
-          flex-wrap: wrap;
-          gap: 20px;
-        }
-        .diferencial-item, .passo {
-          flex: 1;
-          min-width: 200px;
-          max-width: 250px;
-        }
-        .diferencial-item img, .passo img {
-          height: 80px;
-          margin-bottom: 15px;
-        }
-        .destinos {
-          background-color: var(--secondary1);
-        }
-        .carousel {
-          display: flex;
-          overflow-x: auto;
-          gap: 20px;
-          padding-bottom: 20px;
-          max-width: 1200px;
-          margin: auto;
-          scrollbar-width: thin;
-          scrollbar-color: var(--primary) var(--secondary2);
-        }
-        .destino-item {
-          flex: 0 0 220px;
-        }
-        .destino-item img {
-          width: 100%;
-          height: auto;
-          border-radius: 8px;
-          margin-bottom: 10px;
-        }
-      `}</style>
     </>
   );
 }
