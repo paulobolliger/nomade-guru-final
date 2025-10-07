@@ -47,6 +47,9 @@ export default function Home() {
             <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>☰</button>
             <nav>
                 <ul className={isMenuOpen ? 'show' : ''} onClick={() => setIsMenuOpen(false)}>
+                    <li><a href="#">Destinos</a></li>
+                    <li><a href="#">Loja Online</a></li>
+                    <li><a href="#">Blog</a></li>
                     <li><a href="#contato" className="header-btn">Crie Seu Roteiro</a></li>
                 </ul>
             </nav>
@@ -144,55 +147,16 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Estilos adicionais para as seções que estavam faltando */}
       <style jsx>{`
-        .diferenciais, .como-funciona, .destinos, .curadoria {
-          padding: 60px 20px;
-          text-align: center;
-        }
-        .diferenciais h2, .como-funciona h2, .destinos h2, .curadoria h2 {
-          font-size: 2em;
-          margin-bottom: 40px;
-        }
-        .items, .passos {
-          max-width: 1200px;
-          margin: auto;
-          display: flex;
-          justify-content: space-around;
-          flex-wrap: wrap;
-          gap: 20px;
-        }
-        .diferencial-item, .passo {
-          flex: 1;
-          min-width: 200px;
-          max-width: 250px;
-        }
-        .diferencial-item img, .passo img {
-          height: 80px;
-          margin-bottom: 15px;
-        }
-        .destinos {
-          background-color: var(--secondary1);
-        }
-        .carousel {
-          display: flex;
-          overflow-x: auto;
-          gap: 20px;
-          padding-bottom: 20px;
-          max-width: 1200px;
-          margin: auto;
-          scrollbar-width: thin;
-          scrollbar-color: var(--primary) var(--secondary2);
-        }
-        .destino-item {
-          flex: 0 0 220px;
-        }
-        .destino-item img {
-          width: 100%;
-          height: auto;
-          border-radius: 8px;
-          margin-bottom: 10px;
-        }
+        .diferenciais, .como-funciona, .destinos, .curadoria { padding: 60px 20px; text-align: center; }
+        .diferenciais h2, .como-funciona h2, .destinos h2, .curadoria h2 { font-size: 2em; margin-bottom: 40px; }
+        .items, .passos { max-width: 1200px; margin: auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; }
+        .diferencial-item, .passo { flex: 1; min-width: 200px; max-width: 250px; }
+        .diferencial-item img, .passo img { height: 80px; margin-bottom: 15px; }
+        .destinos { background-color: var(--secondary1); }
+        .carousel { display: flex; overflow-x: auto; gap: 20px; padding-bottom: 20px; max-width: 1200px; margin: auto; scrollbar-width: thin; scrollbar-color: var(--primary) var(--secondary2); }
+        .destino-item { flex: 0 0 220px; }
+        .destino-item img { width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px; }
       `}</style>
     </>
   );
