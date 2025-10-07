@@ -25,7 +25,7 @@ a {
   color: inherit;
 }
 
-/* === HEADER AJUSTADO === */
+/* Header (Navegação) */
 header {
   padding: 10px 40px; 
   position: fixed;
@@ -60,7 +60,6 @@ nav ul {
   gap: 30px;
 }
 
-/* === NOVO ESTILO PARA LINKS DO MENU === */
 nav ul li a:not(.header-btn) {
   font-weight: 500;
   position: relative;
@@ -87,7 +86,6 @@ nav ul li a:not(.header-btn):hover {
 nav ul li a:not(.header-btn):hover::after {
   width: 100%;
 }
-/* === FIM DOS NOVOS ESTILOS === */
 
 .header-btn {
   background: var(--primary);
@@ -104,7 +102,6 @@ nav ul li a:not(.header-btn):hover::after {
   background: var(--denary);
 }
 
-
 /* Seções Padrão */
 .hero, .diferenciais, .como-funciona, .destinos, .curadoria, .contato-roteiro {
   padding: 60px 20px;
@@ -116,19 +113,95 @@ nav ul li a:not(.header-btn):hover::after {
 .hero p { font-size: 1.2em; margin-bottom: 50px; max-width: 600px; margin-left: auto; margin-right: auto; }
 .hero .btn { background: var(--white); color: var(--primary); padding: 15px 30px; border-radius: 50px; font-size: 1em; font-weight: 700; cursor: pointer; transition: background 0.3s ease; }
 
-/* Formulário */
-#roteiro-form { max-width: 600px; margin: auto; display: flex; flex-direction: column; gap: 15px; }
-.form-group { text-align: left; }
-.form-group label { display: block; margin-bottom: 5px; font-weight: 500; color: #ddd; }
-#roteiro-form input, #roteiro-form textarea { width: 100%; box-sizing: border-box; padding: 15px; background-color: #12152c; color: var(--white); border: 1px solid #424452; border-radius: 8px; font-size: 1rem; transition: border-color 0.3s, box-shadow 0.3s; }
-#roteiro-form input:focus, #roteiro-form textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(80, 83, 196, 0.3); }
-.btn-gerar { padding: 15px 30px; font-size: 1.1em; font-weight: 700; background-color: var(--white); color: var(--primary); border: none; border-radius: 50px; cursor: pointer; transition: background-color 0.3s ease; margin-top: 20px; }
-.btn-gerar:hover:not(:disabled) { background-color: #e0e0e0; }
+/* Seção do Formulário */
+.contato-roteiro {
+  text-align: center;
+  background-color: #1a1e36;
+}
+.contato-roteiro h2 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+.contato-roteiro p {
+  font-size: 1.1em;
+  color: #c0c0c0;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#roteiro-form {
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Aumentei o espaço entre os campos */
+}
+.form-group {
+  text-align: left;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 8px; /* Mais espaço */
+  font-weight: 500;
+  color: #ccc;
+  margin-left: 15px; /* Leve indentação */
+}
+
+/* === ESTILOS DO FORMULÁRIO ATUALIZADOS === */
+#roteiro-form input, #roteiro-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px 20px; /* Campos maiores */
+  background-color: var(--secondary2);
+  color: var(--white);
+  border: 1px solid #424452;
+  border-radius: 30px; /* Bordas arredondadas */
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#roteiro-form textarea {
+  border-radius: 20px; /* Borda um pouco menos redonda para áreas de texto */
+  resize: vertical;
+}
+
+#roteiro-form input::placeholder, #roteiro-form textarea::placeholder {
+    color: #8a8a8a;
+}
+
+#roteiro-form input:focus, #roteiro-form textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(80, 83, 196, 0.3); /* Efeito "glow" */
+}
+/* === FIM DAS ATUALIZAÇÕES === */
+
+.btn-gerar {
+  padding: 16px 30px;
+  font-size: 1.1em;
+  font-weight: 700;
+  background-color: var(--white);
+  color: var(--primary);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  align-self: center; /* Centraliza o botão */
+  max-width: 300px;
+}
+.btn-gerar:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(80, 83, 196, 0.2);
+}
 .btn-gerar:disabled { background-color: #ccc; cursor: not-allowed; }
+
+.resultado-container, footer { /* ... o resto do CSS permanece o mesmo ... */ }
 .resultado-container { background-color: var(--secondary2); padding: 30px; margin: 40px auto 0 auto; max-width: 800px; border-radius: 10px; text-align: left; border: 1px solid var(--primary); line-height: 1.8; }
 .resultado-container h3 { border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-top: 20px; }
-
-/* Rodapé */
 footer { background-color: #0c0e1a; color: #a0a0a0; padding: 40px 20px; font-size: 0.9em; }
 .footer-container { max-width: 1200px; margin: auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
 .footer-info, .footer-links { flex: 1; min-width: 250px; }
@@ -138,15 +211,14 @@ footer { background-color: #0c0e1a; color: #a0a0a0; padding: 40px 20px; font-siz
 
 /* Responsividade */
 .menu-toggle { display: none; font-size: 28px; background: none; border: none; color: var(--white); cursor: pointer; z-index: 1001; }
-
 @media (max-width: 768px) {
-    header { padding: 10px 20px; }
-    .hero h1 { font-size: 2.2em; }
-    nav { order: 1; }
-    .menu-toggle { display: block; order: 2; }
-    nav ul { display: none; position: absolute; top: 80px; left: 0; width: 100%; flex-direction: column; background-color: #12152c; padding: 20px 0; text-align: center; gap: 0; }
-    nav ul li { margin: 15px 0; }
-    nav ul.show { display: flex; }
-    .items, .passos { flex-direction: column; align-items: center; }
-    .footer-container { flex-direction: column; text-align: center; align-items: center; }
+  header { padding: 10px 20px; }
+  .hero h1 { font-size: 2.2em; }
+  nav { order: 1; }
+  .menu-toggle { display: block; order: 2; }
+  nav ul { display: none; position: absolute; top: 80px; left: 0; width: 100%; flex-direction: column; background-color: #12152c; padding: 20px 0; text-align: center; gap: 0; }
+  nav ul li { margin: 15px 0; }
+  nav ul.show { display: flex; }
+  .items, .passos { flex-direction: column; align-items: center; }
+  .footer-container { flex-direction: column; text-align: center; align-items: center; }
 }
