@@ -1,6 +1,11 @@
 import Head from 'next/head';
+import Link from 'next/link';
 
+// A função da página recebe "roteiros" e "error" como propriedades
 export default function Destinos({ roteiros, error }) {
+  // A lógica para o menu mobile, se necessário, pode ser adicionada aqui
+  // Mas para simplificar, o header desta página não terá o menu hambúrguer por enquanto
+
   return (
     <>
       <Head>
@@ -9,17 +14,19 @@ export default function Destinos({ roteiros, error }) {
 
       <header>
         <div className="container">
-            <div className="logo">
-                <a href="/"><img src="https://res.cloudinary.com/dhqvjxgue/image/upload/c_crop,ar_4:3/v1744736404/logo_branco_sem_fundo_rucnug.png" alt="Logo Nomade Guru" /></a>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="/destinos">Destinos</a></li>
-                    <li><a href="#">Loja Online</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="/#contato" className="header-btn">Crie Seu Roteiro</a></li>
-                </ul>
-            </nav>
+          <div className="logo">
+            <Link href="/">
+              <img src="https://res.cloudinary.com/dhqvjxgue/image/upload/c_crop,ar_4:3/v1744736404/logo_branco_sem_fundo_rucnug.png" alt="Logo Nomade Guru" />
+            </Link>
+          </div>
+          <nav>
+            <ul>
+              <li><Link href="/destinos">Destinos</Link></li>
+              <li><a href="#">Loja Online</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><Link href="/#contato" className="header-btn">Crie Seu Roteiro</Link></li>
+            </ul>
+          </nav>
         </div>
       </header>
 
@@ -27,21 +34,28 @@ export default function Destinos({ roteiros, error }) {
         <h1>Nossos Roteiros</h1>
         <p>Explore os roteiros pré-definidos e encontre sua próxima grande aventura.</p>
         
+        {/* Se houver um erro, exibe a mensagem de erro */}
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
+        {/* Se não houver erro, mas a lista de roteiros estiver vazia */}
+        {!error && (!roteiros || roteiros.length === 0) && (
+            <p>Nenhum roteiro encontrado. Cadastre seu primeiro roteiro no painel do Strapi e verifique as permissões!</p>
+        )}
+
         <div className="roteiros-grid">
+          {/* Mapeia e exibe cada roteiro se a lista não estiver vazia */}
           {roteiros && roteiros.map((roteiro) => (
             <div key={roteiro.id} className="roteiro-card">
-              {roteiro.attributes.GaleriaDeFotos.data && roteiro.attributes.GaleriaDeFotos.data.length > 0 && (
-                 <img 
-                    src={roteiro.attributes.GaleriaDeFotos.data[0].attributes.url} 
-                    alt={roteiro.attributes.Titulo} 
-                  />
-              )}
+              {/* Código mais seguro para evitar erro se não houver imagem */}
+              <img 
+                src={roteiro.attributes.GaleriaDeFotos?.data?.[0]?.attributes?.url || 'https://placehold.co/600x400/232452/FFF?text=Sem+Imagem'} 
+                alt={roteiro.attributes.Titulo} 
+              />
               <div className="roteiro-info">
                 <h2>{roteiro.attributes.Titulo}</h2>
-                <p className="duracao">{roteiro.attributes.Duracao}</p>
-                <p className="preco">R$ {roteiro.attributes.Preco.toFixed(2).replace('.', ',')}</p>
+                <p className="duracao">{roteiro.attributes.Duracao || 'Duração não informada'}</p>
+                {/* Código mais seguro para evitar erro se não houver preço */}
+                <p className="preco">R$ {roteiro.attributes.Preco?.toFixed(2).replace('.', ',') || 'Sob consulta'}</p>
                 <a href="#" className="btn-comprar">Ver Detalhes</a>
               </div>
             </div>
@@ -52,23 +66,23 @@ export default function Destinos({ roteiros, error }) {
   );
 }
 
-// === A MUDANÇA ESTÁ AQUI ===
-// Trocamos getStaticProps por getServerSideProps
+// Usando getServerSideProps para garantir que o build da Vercel não falhe
 export async function getServerSideProps() {
-  if (!process.env.NEXT_PUBLIC_STRAPI_API_URL) {
-    return { props: { roteiros: [], error: "A conexão com o servidor de conteúdo não está configurada." } };
-  }
-  
   const apiUrl = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/roteiros?populate=*`;
 
   try {
     const res = await fetch(apiUrl);
-
     if (!res.ok) {
-      throw new Error('Não foi possível carregar os roteiros do nosso servidor.');
+      // Se a resposta não for OK, lança um erro para ser pego pelo catch
+      throw new Error(`Falha ao buscar dados do Strapi. Status: ${res.status}`);
     }
 
     const roteirosData = await res.json();
+    
+    // Se a resposta da API for um erro do Strapi (ex: Forbidden)
+    if (roteirosData.error) {
+      throw new Error(roteirosData.error.message);
+    }
 
     return {
       props: {
@@ -77,11 +91,14 @@ export async function getServerSideProps() {
       },
     };
   } catch (error) {
+    console.error('Erro em getServerSideProps para /destinos:', error.message);
+    // Retorna a mensagem de erro para ser exibida na página
     return { 
       props: { 
         roteiros: [], 
-        error: "Desculpe, não foi possível carregar os roteiros no momento. Tente novamente mais tarde." 
+        error: "Desculpe, não foi possível carregar os roteiros no momento. Verifique se o servidor do Strapi está online e as permissões estão corretas." 
       } 
     };
   }
 }
+

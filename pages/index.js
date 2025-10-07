@@ -141,7 +141,7 @@ export default function Home() {
           </form>
 
           {loading && <div style={{ textAlign: 'center', marginTop: '40px' }}><p>Criando sua viagem... ✈️</p></div>}
-          {resultado && <div className="resultado-container" dangerouslySetInnerHTML={{ __html:resultado }} />}
+          {resultado && <div className="resultado-container" dangerouslySetInnerHTML={{ __html: resultado }} />}
         </section>
       </main>
 
