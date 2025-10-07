@@ -1,11 +1,7 @@
 import Head from 'next/head';
-import Link from 'next/link';
+import Link from 'next/link'; // Importa o componente de Link do Next.js
 
-// A função da página recebe "roteiros" e "error" como propriedades
 export default function Destinos({ roteiros, error }) {
-  // A lógica para o menu mobile, se necessário, pode ser adicionada aqui
-  // Mas para simplificar, o header desta página não terá o menu hambúrguer por enquanto
-
   return (
     <>
       <Head>
@@ -39,7 +35,7 @@ export default function Destinos({ roteiros, error }) {
 
         {/* Se não houver erro, mas a lista de roteiros estiver vazia */}
         {!error && (!roteiros || roteiros.length === 0) && (
-            <p>Nenhum roteiro encontrado. Cadastre seu primeiro roteiro no painel do Strapi e verifique as permissões!</p>
+            <p>Nenhum roteiro encontrado. Cadastre seu primeiro roteiro no painel do Strapi!</p>
         )}
 
         <div className="roteiros-grid">
@@ -73,7 +69,7 @@ export async function getServerSideProps() {
   try {
     const res = await fetch(apiUrl);
     if (!res.ok) {
-      // Se a resposta não for OK, lança um erro para ser pego pelo catch
+      // Se a resposta não for OK, lança um erro para ser apanhado pelo catch
       throw new Error(`Falha ao buscar dados do Strapi. Status: ${res.status}`);
     }
 
@@ -101,4 +97,3 @@ export async function getServerSideProps() {
     };
   }
 }
-
