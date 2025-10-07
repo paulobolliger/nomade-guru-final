@@ -47,7 +47,7 @@ export default function Home() {
             <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>☰</button>
             <nav>
                 <ul className={isMenuOpen ? 'show' : ''} onClick={() => setIsMenuOpen(false)}>
-                    <li><a href="#">Destinos</a></li>
+                    <li><a href="/destinos">Destinos</a></li>
                     <li><a href="#">Loja Online</a></li>
                     <li><a href="#">Blog</a></li>
                     <li><a href="#contato" className="header-btn">Crie Seu Roteiro</a></li>
