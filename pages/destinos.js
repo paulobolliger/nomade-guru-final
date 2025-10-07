@@ -32,7 +32,6 @@ export default function Destinos({ roteiros, error }) {
         <div className="roteiros-grid">
           {roteiros && roteiros.map((roteiro) => (
             <div key={roteiro.id} className="roteiro-card">
-              {/* Verifica se a imagem existe antes de tentar renderizar */}
               {roteiro.attributes.GaleriaDeFotos.data && roteiro.attributes.GaleriaDeFotos.data.length > 0 && (
                  <img 
                     src={roteiro.attributes.GaleriaDeFotos.data[0].attributes.url} 
@@ -53,10 +52,10 @@ export default function Destinos({ roteiros, error }) {
   );
 }
 
-export async function getStaticProps() {
-  // Garante que a variável de ambiente existe
+// === A MUDANÇA ESTÁ AQUI ===
+// Trocamos getStaticProps por getServerSideProps
+export async function getServerSideProps() {
   if (!process.env.NEXT_PUBLIC_STRAPI_API_URL) {
-    console.error("ERRO: A variável de ambiente NEXT_PUBLIC_STRAPI_API_URL não está configurada.");
     return { props: { roteiros: [], error: "A conexão com o servidor de conteúdo não está configurada." } };
   }
   
@@ -66,7 +65,6 @@ export async function getStaticProps() {
     const res = await fetch(apiUrl);
 
     if (!res.ok) {
-      console.error(`Erro ao buscar do Strapi: ${res.status} ${res.statusText}`);
       throw new Error('Não foi possível carregar os roteiros do nosso servidor.');
     }
 
@@ -77,11 +75,8 @@ export async function getStaticProps() {
         roteiros: roteirosData.data || [],
         error: null,
       },
-      revalidate: 60, // Atualiza os dados a cada 60 segundos
     };
   } catch (error) {
-    console.error('Erro de build em getStaticProps:', error.message);
-    // Retorna props vazias para não quebrar o build, mas passa a mensagem de erro
     return { 
       props: { 
         roteiros: [], 
