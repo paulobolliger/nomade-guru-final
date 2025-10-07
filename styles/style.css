@@ -17,6 +17,7 @@ body {
 }
 
 main {
+  /* Para evitar que o header fixo cubra o conteúdo inicial */
   padding-top: 80px; 
 }
 
@@ -76,7 +77,6 @@ nav ul {
   background: var(--denary);
 }
 
-
 /* Hero Section (Seção Principal) */
 .hero {
   min-height: 80vh;
@@ -128,6 +128,56 @@ nav ul {
   font-weight: 700;
   cursor: pointer;
   transition: background 0.3s ease;
+}
+
+/* Seções Padrão */
+.diferenciais, .como-funciona, .destinos, .curadoria {
+  padding: 60px 20px;
+  text-align: center;
+}
+.diferenciais h2, .como-funciona h2, .destinos h2, .curadoria h2 {
+  font-size: 2em;
+  margin-bottom: 40px;
+}
+.items, .passos {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.diferencial-item, .passo {
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+}
+.diferencial-item img, .passo img {
+  height: 80px;
+  margin-bottom: 15px;
+}
+.destinos {
+  background-color: var(--secondary1);
+  color: var(--white);
+}
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding-bottom: 20px;
+  max-width: 1200px;
+  margin: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--secondary2);
+}
+.destino-item {
+  flex: 0 0 220px;
+}
+.destino-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 /* Seção do Formulário de Contato */
@@ -267,9 +317,11 @@ footer {
 }
 
 
+/* ================================================= */
 /* === CÓDIGO DE RESPONSIVIDADE COMPLETO === */
+/* ================================================= */
 
-/* Botão do menu hambúrguer (inicialmente escondido) */
+/* Botão do menu hambúrguer (escondido em telas grandes) */
 .menu-toggle {
     display: none;
     font-size: 28px;
@@ -277,6 +329,7 @@ footer {
     border: none;
     color: var(--white);
     cursor: pointer;
+    z-index: 1001; /* Para ficar na frente do menu */
 }
 
 /* Media Query para telas de tablet e celular */
@@ -284,21 +337,21 @@ footer {
     .hero h1 {
         font-size: 2.2em;
     }
-    
-    /* Esconde a navegação normal */
+
+    /* Esconde a navegação de desktop */
     nav ul {
         display: none;
-        /* Estilos para quando o menu estiver aberto */
         position: absolute;
-        top: 80px; /* Altura do header */
+        top: 70px; /* Altura do header */
         left: 0;
         width: 100%;
         flex-direction: column;
         background-color: #12152c;
         padding: 20px 0;
+        text-align: center;
     }
-    
-    /* Mostra o menu quando ele tiver a classe 'show' */
+
+    /* Mostra o menu mobile quando ele tem a classe 'show' */
     nav ul.show {
         display: flex;
     }
@@ -310,6 +363,12 @@ footer {
     /* Mostra o botão do menu hambúrguer */
     .menu-toggle {
         display: block;
+    }
+
+    /* Empilha as seções */
+    .items, .passos {
+        flex-direction: column;
+        align-items: center;
     }
 
     .footer-container {
