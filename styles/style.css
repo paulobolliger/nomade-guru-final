@@ -103,8 +103,12 @@ nav ul li a:not(.header-btn):hover::after {
 }
 
 /* Seções Padrão */
-.hero, .diferenciais, .como-funciona, .destinos, .curadoria, .contato-roteiro {
+.hero, .diferenciais, .como-funciona, .destinos, .contato-roteiro {
   padding: 60px 20px;
+}
+.diferenciais h2, .como-funciona h2, .destinos h2, .contato-roteiro h2 {
+  font-size: 2em;
+  margin-bottom: 40px;
 }
 .hero { min-height: 80vh; background-size: cover; background-position: center; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); }
 .hero::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); }
@@ -125,18 +129,16 @@ nav ul li a:not(.header-btn):hover::after {
 .contato-roteiro p {
   font-size: 1.1em;
   color: #c0c0c0;
-  margin-bottom: 60px; /* Mais espaço para o novo formulário */
+  margin-bottom: 60px;
 }
 
-/* === ESTILOS ANTIGOS DO FORMULÁRIO REMOVIDOS === */
-
-/* === CSS DO MATERIAL DESIGN FORM (SUGESTÃO DO CHATGPT) === */
+/* CSS DO MATERIAL DESIGN FORM */
 #roteiro-form {
   max-width: 500px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 32px; /* Aumentei o espaçamento */
+  gap: 32px;
 }
 .md-field {
   position: relative;
@@ -150,7 +152,7 @@ nav ul li a:not(.header-btn):hover::after {
   border-bottom: 2px solid rgba(255, 255, 255, 0.2);
   color: var(--white);
   font-size: 1rem;
-  padding: 14px 4px 10px 4px; /* Adicionado padding lateral */
+  padding: 14px 4px 10px 4px;
   transition: all 0.3s ease;
   box-sizing: border-box;
 }
@@ -173,11 +175,12 @@ nav ul li a:not(.header-btn):hover::after {
   border-bottom-color: var(--primary);
   outline: none;
 }
+/* O placeholder=" " no HTML é essencial para este seletor funcionar corretamente */
 .md-field input:focus + label,
 .md-field input:not(:placeholder-shown) + label,
 .md-field textarea:focus + label,
 .md-field textarea:not(:placeholder-shown) + label {
-  top: -12px; /* Ajuste para subir mais */
+  top: -12px;
   font-size: 0.8rem;
   color: var(--primary);
 }
@@ -209,11 +212,11 @@ nav ul li a:not(.header-btn):hover::after {
   box-shadow: none;
   cursor: not-allowed;
 }
-/* === FIM DO CSS DO MATERIAL DESIGN === */
 
 .resultado-container { background-color: var(--secondary2); padding: 30px; margin: 40px auto 0 auto; max-width: 800px; border-radius: 10px; text-align: left; border: 1px solid var(--primary); line-height: 1.8; }
 .resultado-container h3 { border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-top: 20px; }
 
+/* Rodapé */
 footer { background-color: #0c0e1a; color: #a0a0a0; padding: 40px 20px; font-size: 0.9em; }
 .footer-container { max-width: 1200px; margin: auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
 .footer-info, .footer-links { flex: 1; min-width: 250px; }
@@ -233,59 +236,4 @@ footer { background-color: #0c0e1a; color: #a0a0a0; padding: 40px 20px; font-siz
   nav ul.show { display: flex; }
   .items, .passos { flex-direction: column; align-items: center; }
   .footer-container { flex-direction: column; text-align: center; align-items: center; }
-
-/* === ESTILOS PARA A PÁGINA DE DESTINOS === */
-.destinos-page {
-  max-width: 1200px;
-  margin: auto;
-  padding: 60px 20px;
-  text-align: center;
-}
-.roteiros-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 30px;
-  margin-top: 40px;
-}
-.roteiro-card {
-  background-color: var(--secondary2);
-  border-radius: 12px;
-  overflow: hidden;
-  text-align: left;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.roteiro-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
-.roteiro-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-.roteiro-info {
-  padding: 20px;
-}
-.roteiro-info h2 {
-  margin-top: 0;
-  font-size: 1.4em;
-}
-.roteiro-info .duracao {
-  color: #ccc;
-  font-size: 0.9em;
-}
-.roteiro-info .preco {
-  font-size: 1.5em;
-  font-weight: 700;
-  color: var(--primary);
-  margin: 10px 0;
-}
-.btn-comprar {
-  display: block;
-  background-color: var(--primary);
-  color: var(--white);
-  text-align: center;
-  padding: 10px;
-  border-radius: 8px;
-  font-weight: 600;
 }

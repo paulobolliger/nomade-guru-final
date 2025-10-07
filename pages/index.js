@@ -36,7 +36,7 @@ export default function Home() {
         <title>Nomade Guru - Agência de Viagens Inteligente</title>
         <meta name="description" content="Roteiros de viagem personalizados com inteligência artificial e curadoria humana." />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" xintegrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossOrigin="anonymous" />
       </Head>
 
       <header>
@@ -47,7 +47,7 @@ export default function Home() {
             <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>☰</button>
             <nav>
                 <ul className={isMenuOpen ? 'show' : ''} onClick={() => setIsMenuOpen(false)}>
-                    <li><a href="/destinos">Destinos</a></li>
+                    <li><a href="#">Destinos</a></li>
                     <li><a href="#">Loja Online</a></li>
                     <li><a href="#">Blog</a></li>
                     <li><a href="#contato" className="header-btn">Crie Seu Roteiro</a></li>
@@ -65,7 +65,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* =================== MIOLO RESTAURADO =================== */}
         <section className="diferenciais" id="diferenciais">
             <h2>Diferenciais</h2>
             <div className="items">
@@ -110,7 +109,6 @@ export default function Home() {
                 <div className="destino-item"><img loading="lazy" src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744155472/disney-magic-kingdom_bl1w3h.png" alt="Magic Kingdom na Disney" /><p>Disney</p></div>
             </div>
         </section>
-        {/* ========================================================= */}
         
         <section className="contato-roteiro" id="contato">
           <h2>Crie seu Roteiro Personalizado Instantaneamente</h2>
@@ -214,4 +212,3 @@ export default function Home() {
     </>
   );
 }
-
