@@ -31,17 +31,39 @@ export default function Home({ destinosDestaque }) {
     setResultado('');
     
     try {
+      // 1. Primeiro envia para o submit-lead (salva no Google Sheets, Telegram, Email)
+      try {
+        const submitResponse = await fetch('/api/submit-lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+        
+        if (submitResponse.ok) {
+          const submitResult = await submitResponse.json();
+          console.log('Lead salvo com sucesso:', submitResult);
+        }
+      } catch (submitError) {
+        console.error('Erro ao salvar lead:', submitError);
+        // Não bloqueia o fluxo se falhar
+      }
+
+      // 2. Depois gera o roteiro com IA
       const response = await fetch('/api/gerar-roteiro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
+      
       const result = await response.json();
+      
       if (!response.ok) {
         throw new Error(result.error || 'Falha na resposta do servidor');
       }
+      
       setResultado(result.roteiro);
       setEtapaAtual(6); // Vai para tela de resultado
+      
     } catch (error) {
       setResultado(`<p style="color: red;">${error.message}</p>`);
     } finally {
@@ -57,12 +79,25 @@ export default function Home({ destinosDestaque }) {
     if (etapaAtual > 1) setEtapaAtual(etapaAtual - 1);
   };
 
+  const handleServiceToggle = (serviceName) => {
+    const currentInteresses = formData.interesses ? formData.interesses.split(', ') : [];
+    const index = currentInteresses.indexOf(serviceName);
+    
+    if (index > -1) {
+      currentInteresses.splice(index, 1);
+    } else {
+      currentInteresses.push(serviceName);
+    }
+    
+    setFormData({...formData, interesses: currentInteresses.join(', ')});
+  };
+
   return (
     <>
       <Head>
         <title>Nomade Guru - Agência de Viagens Inteligente</title>
         <meta name="description" content="Roteiros de viagem personalizados com inteligência artificial e curadoria humana." />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="https://res.cloudinary.com/dhqvjxgue/image/upload/v1759922097/favicon-32x32_pbzjqt.png" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossOrigin="anonymous" />
       </Head>
 
@@ -85,7 +120,7 @@ export default function Home({ destinosDestaque }) {
             <ul className={isMenuOpen ? 'show' : ''} onClick={() => setIsMenuOpen(false)}>
               <li><Link href="/destinos">Destinos</Link></li>
               <li><a href="#">Loja Online</a></li>
-              <li><a href="#">Blog</a></li>
+              <li><Link href="/blog">Blog</Link></li>
               <li>
                 <button 
                   onClick={() => setShowPopup(true)} 
@@ -305,21 +340,119 @@ export default function Home({ destinosDestaque }) {
                 </div>
               )}
 
-              {etapaAtual === 5 && (
+                        {etapaAtual === 5 && (
                 <div className="etapa">
-                  <h3>🎯 Quais são seus interesses?</h3>
-                  <textarea
-                    value={formData.interesses}
-                    onChange={(e) => setFormData({...formData, interesses: e.target.value})}
-                    placeholder="Ex: gastronomia, aventura, cultura, praia..."
-                    rows="4"
-                    autoFocus
-                  ></textarea>
+                  <h3>🎯 Quais serviços você precisa?</h3>
+                  
+                  <div className="servicos-grid">
+                    <label className="servico-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.interesses.includes('Passagem Aérea')}
+                        onChange={() => handleServiceToggle('Passagem Aérea')}
+                      />
+                      <div className="servico-content">
+                        <i className="fas fa-plane"></i>
+                        <span>Passagem Aérea</span>
+                      </div>
+                    </label>
+
+                    <label className="servico-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.interesses.includes('Hotel')}
+                        onChange={() => handleServiceToggle('Hotel')}
+                      />
+                      <div className="servico-content">
+                        <i className="fas fa-hotel"></i>
+                        <span>Hotel</span>
+                      </div>
+                    </label>
+
+                    <label className="servico-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.interesses.includes('Aluguel de Temporada')}
+                        onChange={() => handleServiceToggle('Aluguel de Temporada')}
+                      />
+                      <div className="servico-content">
+                        <i className="fas fa-home"></i>
+                        <span>Aluguel Temporada</span>
+                      </div>
+                    </label>
+
+                    <label className="servico-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.interesses.includes('Passeios')}
+                        onChange={() => handleServiceToggle('Passeios')}
+                      />
+                      <div className="servico-content">
+                        <i className="fas fa-map-marked-alt"></i>
+                        <span>Passeios</span>
+                      </div>
+                    </label>
+
+                    <label className="servico-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.interesses.includes('Seguro Viagem')}
+                        onChange={() => handleServiceToggle('Seguro Viagem')}
+                      />
+                      <div className="servico-content">
+                        <i className="fas fa-shield-alt"></i>
+                        <span>Seguro Viagem</span>
+                      </div>
+                    </label>
+
+                    <label className="servico-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.interesses.includes('Aluguel de Carro')}
+                        onChange={() => handleServiceToggle('Aluguel de Carro')}
+                      />
+                      <div className="servico-content">
+                        <i className="fas fa-car"></i>
+                        <span>Aluguel de Carro</span>
+                      </div>
+                    </label>
+
+                    <label className="servico-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.interesses.includes('Transfer')}
+                        onChange={() => handleServiceToggle('Transfer')}
+                      />
+                      <div className="servico-content">
+                        <i className="fas fa-bus"></i>
+                        <span>Transfer</span>
+                      </div>
+                    </label>
+
+                    <label className="servico-item">
+                      <input
+                        type="checkbox"
+                        checked={formData.interesses.includes('Outros')}
+                        onChange={() => handleServiceToggle('Outros')}
+                      />
+                      <div className="servico-content">
+                        <i className="fas fa-ellipsis-h"></i>
+                        <span>Outros</span>
+                      </div>
+                    </label>
+                  </div>
+
+                  {formData.interesses && (
+                    <p className="servicos-selecionados">
+                      Selecionados: {formData.interesses}
+                    </p>
+                  )}
+                  
                   <div className="botoes-navegacao">
                     <button type="button" onClick={voltarEtapa} className="btn-voltar">
                       ← Voltar
                     </button>
-                    <button type="submit" disabled={loading} className="btn-gerar">
+                    <button type="submit" disabled={loading || !formData.interesses} className="btn-gerar">
                       {loading ? '✨ Gerando magia...' : '✨ Gerar Roteiro'}
                     </button>
                   </div>
@@ -568,6 +701,98 @@ export default function Home({ destinosDestaque }) {
 
         .botoes-navegacao button:last-child {
           flex: 2;
+        }
+
+        /* Grid de Serviços */
+        .servicos-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+          margin-bottom: 20px;
+        }
+
+        .servico-item {
+          position: relative;
+          display: block;
+          cursor: pointer;
+          background: rgba(255,255,255,0.05);
+          border: 2px solid rgba(255,255,255,0.1);
+          border-radius: 12px;
+          padding: 15px;
+          transition: all 0.3s;
+        }
+
+        .servico-item:hover {
+          background: rgba(255,255,255,0.08);
+          border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .servico-item input[type="checkbox"] {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+        }
+
+        .servico-item input[type="checkbox"]:checked ~ ..servico-item input[type="checkbox"]:checked ~ .servico-content {
+          color: #6366f1;
+        }
+
+        .servico-item input[type="checkbox"]:checked ~ .servico-content::before {
+          content: '✓';
+          position: absolute;
+          top: -8px;
+          right: -8px;
+          width: 20px;
+          height: 20px;
+          background: linear-gradient(135deg, #6366f1, #8b5cf6);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-size: 12px;
+          font-weight: bold;
+        }
+
+        .servico-item:has(input[type="checkbox"]:checked) {
+          background: rgba(99, 102, 241, 0.1);
+          border-color: #6366f1;
+        }
+
+        .servico-content {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          color: #94a3b8;
+          transition: all 0.3s;
+        }
+
+        .servico-content i {
+          font-size: 24px;
+        }
+
+        .servico-content span {
+          font-size: 0.9em;
+          text-align: center;
+        }
+
+        .servicos-selecionados {
+          color: #6366f1;
+          font-size: 0.9em;
+          text-align: center;
+          margin: 15px 0;
+          padding: 10px;
+          background: rgba(99, 102, 241, 0.1);
+          border-radius: 8px;
+        }
+
+        /* Para mobile */
+        @media (max-width: 480px) {
+          .servicos-grid {
+            grid-template-columns: 1fr;
+          }
         }
 
         .resultado-popup {
