@@ -1,18 +1,19 @@
+// Local: pages/destinos.js
+
 import Head from 'next/head';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router'; // <-- Adicionado para navegação
+import Header from '../components/Header'; // <-- Importado
+import Footer from '../components/Footer'; // <-- Importado
 
 export default function Destinos({ roteiros, error }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  // A lógica do Header (useState e useEffect) foi REMOVIDA daqui
+  const router = useRouter();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Função para o botão do Header navegar para a seção #contato da home
+  const handleCrieRoteiroClick = () => {
+    router.push('/#contato');
+  };
 
   return (
     <>
@@ -23,34 +24,14 @@ export default function Destinos({ roteiros, error }) {
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" />
       </Head>
 
-      <header className={scrolled ? 'scrolled' : ''}>
-        <div className="container">
-          <div className="logo">
-            <Link href="/">
-              <img 
-                src={scrolled 
-                  ? "https://res.cloudinary.com/dhqvjxgue/image/upload/c_crop,ar_4:3/v1744736404/logo_branco_sem_fundo_rucnug.png"
-                  : "https://res.cloudinary.com/dhqvjxgue/image/upload/v1744736403/logo_nomade_guru_iskhl8.png"
-                }
-                alt="Logo Nomade Guru" 
-              />
-            </Link>
-          </div>
-          <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>☰</button>
-          <nav>
-            <ul className={isMenuOpen ? 'show' : ''} onClick={() => setIsMenuOpen(false)}>
-              <li><Link href="/destinos">Destinos</Link></li>
-              <li><a href="#">Loja Online</a></li>
-              <li><a href="#">Blog</a></li>
-              <li><Link href="/#contato" className="header-btn">Crie Seu Roteiro</Link></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+      {/* Usamos o componente Header e passamos a função de navegação */}
+      <Header onCrieRoteiroClick={handleCrieRoteiroClick} />
 
       <main className="destinos-page">
-        <h1>Nossos Roteiros</h1>
-        <p>Explore os roteiros pré-definidos e encontre sua próxima grande aventura.</p>
+        <div className="page-header" style={{ background: '#7b68ee', color: '#ffffff', border: 'none' }}>
+          <h1>Nossos Roteiros</h1>
+          <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>Explore os roteiros pré-definidos e encontre sua próxima grande aventura.</p>
+        </div>
         
         {error && (
           <div style={{ 
@@ -78,13 +59,11 @@ export default function Destinos({ roteiros, error }) {
             const duracao = roteiro.Duracao || 'Duração não informada';
             const preco = roteiro.Preco;
             
-            // A galeria vem como array direto, não dentro de .data
             let imagemUrl = 'https://placehold.co/600x400/232452/FFF?text=Sem+Imagem';
             
             if (roteiro.GaleriaDeFotos && 
                 Array.isArray(roteiro.GaleriaDeFotos) && 
                 roteiro.GaleriaDeFotos.length > 0) {
-              // Pega a URL diretamente do primeiro item
               imagemUrl = roteiro.GaleriaDeFotos[0].url || imagemUrl;
             }
             
@@ -113,30 +92,13 @@ export default function Destinos({ roteiros, error }) {
         </div>
       </main>
 
-      <footer>
-        <div className="footer-container">
-          <div className="footer-info">
-            <p><strong>Sede:</strong><br/>
-            Rua Comendador Torlogo Dauntre, 74 – Sala 1207<br/>
-            Cambuí – Campinas – SP - Brasil – CEP 13025-270</p>
-            <p>NOMADE GURU TAC LTDA - CNPJ 11.111.227/0001-20</p>
-            <p>© 2009–2025 Nomade Guru TAC Ltda. Todos os direitos reservados.</p>
-          </div>
-          <div className="footer-links">
-            <p><strong>Canais Oficiais</strong></p>
-            <ul className="box-redes-sociais">
-              <li><a href="https://www.facebook.com/nomadeguru" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i className="fab fa-facebook-f icon"></i></a></li>
-              <li><a href="https://www.instagram.com/nomade.guru/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="fab fa-instagram icon"></i></a></li>
-              <li><a href="https://www.youtube.com/@NomadeGuru" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i className="fab fa-youtube icon"></i></a></li>
-              <li><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Spotify"><i className="fab fa-spotify icon"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </footer>
+      {/* Usamos o componente Footer */}
+      <Footer />
     </>
   );
 }
 
+// A função getServerSideProps continua exatamente a mesma
 export async function getServerSideProps() {
   const apiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
   
@@ -174,15 +136,20 @@ export async function getServerSideProps() {
 
     console.log('✅ Roteiros carregados:', roteirosData.data?.length || 0);
 
-    // Transforma os dados para simplificar o acesso no componente
     const roteirosSimplificados = roteirosData.data.map(item => ({
       id: item.id,
       documentId: item.documentId,
       Titulo: item.Titulo,
+      Introducao: item.Introducao,
       Duracao: item.Duracao,
       Preco: item.Preco,
-      GaleriaDeFotos: item.GaleriaDeFotos || [],
-      DescricaoDetalhada: item.DescricaoDetalhada
+      Destino: item.Destino,
+      Estilo_de_Viagem: item.Estilo_de_Viagem,
+      Dificuldade: item.Dificuldade,
+      MelhorEpoca: item.MelhorEpoca,
+      Destaque: item.Destaque,
+      Tags: item.Tags,
+      GaleriaDeFotos: item.GaleriaDeFotos || []
     }));
 
     return {

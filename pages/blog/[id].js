@@ -1,80 +1,65 @@
+// Local: pages/blog/[id].js
+
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Header from '../../components/Header'; // <-- IMPORTADO
+import Footer from '../../components/Footer'; // <-- IMPORTADO
 
 export default function BlogPost({ post, recentPosts }) {
   const router = useRouter();
 
+  // Função para o botão "Crie Seu Roteiro" no Header
+  const handleCrieRoteiroClick = () => {
+    router.push('/#contato');
+  };
+
   // Se a página está sendo gerada estaticamente
   if (router.isFallback) {
     return (
-      <div style={{ padding: '100px', textAlign: 'center', color: 'white' }}>
-        Carregando...
-      </div>
+      <>
+        <Header onCrieRoteiroClick={handleCrieRoteiroClick} />
+        <div style={{ padding: '120px', textAlign: 'center', minHeight: '60vh' }}>
+          Carregando...
+        </div>
+        <Footer />
+      </>
     );
   }
 
   // Se não encontrou o post
   if (!post) {
     return (
-      <div style={{ padding: '100px', textAlign: 'center', color: 'white' }}>
-        <h1>Post não encontrado</h1>
-        <Link href="/blog">Voltar ao Blog</Link>
-      </div>
+      <>
+        <Header onCrieRoteiroClick={handleCrieRoteiroClick} />
+        <div style={{ padding: '120px', textAlign: 'center', minHeight: '60vh' }}>
+          <h1>Post não encontrado</h1>
+          <Link href="/blog" style={{ color: '#6366f1' }}>← Voltar ao Blog</Link>
+        </div>
+        <Footer />
+      </>
     );
   }
 
-  // Função para renderizar o conteúdo Rich Text
+  // Função para renderizar Markdown simples
   const renderContent = (content) => {
-    if (!content || !Array.isArray(content)) return null;
-
-    return content.map((block, blockIndex) => {
-      if (block.type === 'paragraph') {
-        const text = block.children?.map((child, childIndex) => {
-          if (child.text) {
-            // Verificar formatação
-            if (child.bold) return <strong key={childIndex}>{child.text}</strong>;
-            if (child.italic) return <em key={childIndex}>{child.text}</em>;
-            if (child.underline) return <u key={childIndex}>{child.text}</u>;
-            return child.text;
-          }
-          return null;
-        });
-
-        // Não renderizar parágrafos vazios
-        const hasContent = text && text.some(t => t && t !== '');
-        if (!hasContent) return null;
-
-        return <p key={blockIndex}>{text}</p>;
-      }
-
-      if (block.type === 'heading') {
-        const level = block.level || 2;
-        const text = block.children?.map(child => child.text).join('');
-        const HeadingTag = `h${level}`;
-        return <HeadingTag key={blockIndex}>{text}</HeadingTag>;
-      }
-
-      if (block.type === 'list') {
-        const items = block.children?.map((item, itemIndex) => (
-          <li key={itemIndex}>
-            {item.children?.map(child => child.text).join('')}
-          </li>
-        ));
-        
-        if (block.format === 'ordered') {
-          return <ol key={blockIndex}>{items}</ol>;
+    if (!content || typeof content !== 'string') return null;
+    const paragraphs = content.split('\n\n');
+    return paragraphs.map((para, index) => {
+      const trimmed = para.trim();
+      if (!trimmed) return null;
+      if (trimmed.startsWith('### ')) return <h3 key={index}>{trimmed.replace('### ', '')}</h3>;
+      if (trimmed.startsWith('## ')) return <h2 key={index}>{trimmed.replace('## ', '')}</h2>;
+      if (trimmed.startsWith('# ')) return <h1 key={index}>{trimmed.replace('# ', '')}</h1>;
+      const parts = trimmed.split(/(\*\*[^*]+\*\*)/g);
+      const processed = parts.map((part, i) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <strong key={i}>{part.slice(2, -2)}</strong>;
         }
-        return <ul key={blockIndex}>{items}</ul>;
-      }
-
-      if (block.type === 'quote') {
-        const text = block.children?.map(child => child.text).join('');
-        return <blockquote key={blockIndex}>{text}</blockquote>;
-      }
-
-      return null;
-    });
+        return part;
+      });
+      return <p key={index}>{processed}</p>;
+    }).filter(Boolean);
   };
 
   return (
@@ -86,25 +71,10 @@ export default function BlogPost({ post, recentPosts }) {
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" />
       </Head>
 
-      <header className="header-blog">
-        <div className="container">
-          <div className="logo">
-            <Link href="/">
-              <img src="https://res.cloudinary.com/dhqvjxgue/image/upload/v1744736403/logo_nomade_guru_iskhl8.png" alt="Logo Nomade Guru" />
-            </Link>
-          </div>
-          <nav>
-            <ul>
-              <li><Link href="/">Home</Link></li>
-              <li><Link href="/destinos">Destinos</Link></li>
-              <li><Link href="/blog">Blog</Link></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+      {/* SUBSTITUÍMOS o header antigo pelo componente padrão */}
+      <Header onCrieRoteiroClick={handleCrieRoteiroClick} />
 
       <main className="post-main">
-        {/* Hero com imagem */}
         <section className="post-hero" style={{ backgroundImage: `url(${post.imagemUrl})` }}>
           <div className="hero-overlay">
             <div className="container">
@@ -119,23 +89,20 @@ export default function BlogPost({ post, recentPosts }) {
           </div>
         </section>
 
-        {/* Conteúdo do Post */}
         <article className="post-article">
           <div className="container">
             <div className="post-content">
               {renderContent(post.conteudo)}
               
-              {/* CTA no final do post */}
               <div className="post-cta">
                 <h3>Pronto para sua próxima aventura?</h3>
                 <p>Crie seu roteiro personalizado com a Nomade Guru</p>
-                <Link href="/" className="cta-button">
+                <Link href="/#contato" className="cta-button">
                   Criar Meu Roteiro
                 </Link>
               </div>
             </div>
 
-            {/* Sidebar */}
             <aside className="post-sidebar">
               <div className="sidebar-widget">
                 <h3>Posts Recentes</h3>
@@ -159,7 +126,6 @@ export default function BlogPost({ post, recentPosts }) {
           </div>
         </article>
 
-        {/* Voltar ao Blog */}
         <section className="back-to-blog">
           <div className="container">
             <Link href="/blog" className="back-link">
@@ -169,57 +135,15 @@ export default function BlogPost({ post, recentPosts }) {
         </section>
       </main>
 
-      <footer className="blog-footer">
-        <div className="container">
-          <p>© 2025 Nomade Guru. Todos os direitos reservados.</p>
-        </div>
-      </footer>
+      {/* SUBSTITUÍMOS o footer antigo pelo componente padrão */}
+      <Footer />
 
+      {/* O estilo do header e footer antigos foram REMOVIDOS daqui */}
       <style jsx>{`
-        .header-blog {
-          position: fixed;
-          top: 0;
-          width: 100%;
-          background: rgba(30, 41, 59, 0.95);
-          backdrop-filter: blur(10px);
-          padding: 15px 0;
-          z-index: 1000;
-          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
         .container {
           max-width: 1200px;
           margin: 0 auto;
           padding: 0 20px;
-        }
-
-        .header-blog .container {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-
-        .header-blog .logo img {
-          height: 50px;
-        }
-
-        .header-blog nav ul {
-          display: flex;
-          list-style: none;
-          gap: 30px;
-          margin: 0;
-          padding: 0;
-        }
-
-        .header-blog nav a {
-          color: #e5e7eb;
-          text-decoration: none;
-          font-weight: 500;
-          transition: color 0.3s;
-        }
-
-        .header-blog nav a:hover {
-          color: #6366f1;
         }
 
         .post-main {
@@ -309,24 +233,6 @@ export default function BlogPost({ post, recentPosts }) {
           color: white;
           margin: 30px 0 15px;
           font-size: 1.5em;
-        }
-
-        .post-content ul,
-        .post-content ol {
-          margin: 20px 0;
-          padding-left: 30px;
-        }
-
-        .post-content li {
-          margin-bottom: 10px;
-        }
-
-        .post-content blockquote {
-          border-left: 4px solid #6366f1;
-          padding-left: 20px;
-          margin: 30px 0;
-          font-style: italic;
-          color: #94a3b8;
         }
 
         .post-cta {
@@ -434,13 +340,6 @@ export default function BlogPost({ post, recentPosts }) {
           gap: 15px;
         }
 
-        .blog-footer {
-          padding: 30px 0;
-          background: #0f172a;
-          text-align: center;
-          color: #94a3b8;
-        }
-
         @media (max-width: 768px) {
           .post-article .container {
             grid-template-columns: 1fr;
@@ -460,7 +359,7 @@ export default function BlogPost({ post, recentPosts }) {
   );
 }
 
-// Função auxiliar para formatar data
+// O restante do arquivo (funções e getServerSideProps) continua o mesmo
 function formatDate(dateString) {
   if (!dateString) return '';
   const date = new Date(dateString);
@@ -468,67 +367,30 @@ function formatDate(dateString) {
   return date.toLocaleDateString('pt-BR', options);
 }
 
-// Buscar post específico e posts recentes
 export async function getServerSideProps(context) {
   const { id } = context.params;
   const apiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 
   if (!apiUrl) {
-    return {
-      props: {
-        post: null,
-        recentPosts: []
-      }
-    };
+    return { props: { post: null, recentPosts: [] } };
   }
 
   try {
-    // Buscar o post específico
-    const postRes = await fetch(
-      `${apiUrl}/api/post-de-blogs?filters[documentId][$eq]=${id}&populate=*`
-    );
-    
-    if (!postRes.ok) {
-      throw new Error('Post não encontrado');
-    }
-
+    const postRes = await fetch(`${apiUrl}/api/blogs?filters[documentId][$eq]=${id}&populate=*`);
+    if (!postRes.ok) throw new Error('Post não encontrado');
     const postData = await postRes.json();
-    
     if (!postData.data || postData.data.length === 0) {
-      return {
-        props: {
-          post: null,
-          recentPosts: []
-        }
-      };
+      return { props: { post: null, recentPosts: [] } };
     }
-
     const item = postData.data[0];
-
-    // Extrair URL da imagem
     let imagemUrl = 'https://placehold.co/1200x600/5053c4/FFF?text=Blog+Post';
     if (item.ImagemCapa?.url) {
       imagemUrl = item.ImagemCapa.url;
     }
-
-    // Extrair resumo
     let resumo = '';
-    if (item.Conteudo && Array.isArray(item.Conteudo)) {
-      for (let block of item.Conteudo) {
-        if (block.type === 'paragraph' && block.children) {
-          const text = block.children
-            .filter(child => child.text)
-            .map(child => child.text)
-            .join('');
-          
-          if (text && text.trim() && text !== item.Titulo) {
-            resumo = text.slice(0, 160) + '...';
-            break;
-          }
-        }
-      }
+    if (item.Conteudo && typeof item.Conteudo === 'string') {
+        resumo = item.Conteudo.substring(0, 160) + '...';
     }
-
     const post = {
       id: item.id,
       documentId: item.documentId,
@@ -539,13 +401,8 @@ export async function getServerSideProps(context) {
       imagemUrl: imagemUrl
     };
 
-    // Buscar posts recentes (exceto o atual)
-    const recentRes = await fetch(
-      `${apiUrl}/api/post-de-blogs?populate=*&sort=createdAt:desc&pagination[limit]=3&filters[documentId][$ne]=${id}`
-    );
-
+    const recentRes = await fetch(`${apiUrl}/api/blogs?populate=*&sort=createdAt:desc&pagination[limit]=3&filters[documentId][$ne]=${id}`);
     let recentPosts = [];
-    
     if (recentRes.ok) {
       const recentData = await recentRes.json();
       recentPosts = recentData.data.map(item => {
@@ -553,7 +410,6 @@ export async function getServerSideProps(context) {
         if (item.ImagemCapa?.url) {
           imagemUrl = item.ImagemCapa.url;
         }
-
         return {
           id: item.id,
           documentId: item.documentId,
@@ -563,21 +419,9 @@ export async function getServerSideProps(context) {
         };
       });
     }
-
-    return {
-      props: {
-        post,
-        recentPosts
-      }
-    };
-
+    return { props: { post, recentPosts } };
   } catch (error) {
     console.error('Erro ao buscar post:', error);
-    return {
-      props: {
-        post: null,
-        recentPosts: []
-      }
-    };
+    return { props: { post: null, recentPosts: [] } };
   }
 }
