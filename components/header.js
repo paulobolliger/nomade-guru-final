@@ -1,4 +1,4 @@
-// Local: components/Header.js --- VERSÃO FINAL E SIMPLIFICADA
+// Local: components/header.js --- VERSÃO FINAL E SIMPLIFICADA
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
