@@ -3,8 +3,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router'; // <-- Adicionado para navegação
-import Header from '../components/Header'; // <-- Importado
-import Footer from '../components/Footer'; // <-- Importado
+import Header from '../components/header'; // <-- Importado
+import Footer from '../components/footer'; // <-- Importado
 
 export default function Destinos({ roteiros, error }) {
   // A lógica do Header (useState e useEffect) foi REMOVIDA daqui

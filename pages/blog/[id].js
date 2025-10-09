@@ -3,8 +3,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Header from '../../components/Header'; // <-- IMPORTADO
-import Footer from '../../components/Footer'; // <-- IMPORTADO
+import Header from '../../components/header'; // <-- IMPORTADO
+import Footer from '../../components/footer'; // <-- IMPORTADO
 
 export default function BlogPost({ post, recentPosts }) {
   const router = useRouter();

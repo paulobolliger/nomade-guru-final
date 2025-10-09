@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import Header from '../components/Header'; // <-- 1. IMPORTAMOS O HEADER
-import Footer from '../components/Footer'; // <-- 2. IMPORTAMOS O FOOTER
+import Header from '../components/header'; // <-- 1. IMPORTAMOS O HEADER
+import Footer from '../components/footer'; // <-- 2. IMPORTAMOS O FOOTER
 
 export default function Home({ destinosDestaque }) {
   // A LÓGICA DO HEADER (isMenuOpen, scrolled, useEffect) FOI REMOVIDA DAQUI

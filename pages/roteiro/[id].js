@@ -4,8 +4,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Header from '../../components/Header'; // <-- IMPORTADO
-import Footer from '../../components/Footer'; // <-- IMPORTADO
+import Header from '../../components/header'; // <-- IMPORTADO
+import Footer from '../../components/footer'; // <-- IMPORTADO
 
 export default function RoteiroDetalhes({ roteiro, error }) {
   // A lógica do header (isMenuOpen, scrolled) foi REMOVIDA
